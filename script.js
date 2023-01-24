@@ -21,7 +21,6 @@ if (navigator.geolocation) {
       // console.log(`https://www.google.pt/maps/@${latitude},${longitude}`);
 
       const coords = [latitude, longitude];
-
       const zoomLevel = 13;
 
       // 'map' must be the same name with an `id` in an HTML element for rendering map in HTML
@@ -34,11 +33,13 @@ if (navigator.geolocation) {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      // marker and popup when click on a specific location in the map
-      L.marker(coords)
-        .addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
+      map.on('click', (mapEvent) => {
+        console.log(mapEvent);
+        const { lat, lng } = mapEvent.latlng;
+
+        // marker and popup when click on a specific location in the map
+        L.marker([lat, lng]).addTo(map).bindPopup('Workout').openPopup();
+      });
     },
     (err) => console.log('err', err)
   );
