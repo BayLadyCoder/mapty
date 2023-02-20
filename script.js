@@ -19,17 +19,7 @@ class App {
     this._getPosition();
 
     form.addEventListener('submit', this._newWorkout.bind(this));
-
-    inputType.addEventListener('change', () => {
-      // The closest() method of the Element interface
-      // traverses the element and its parents
-      // (heading toward the document root) until it finds a node
-      // that matches the specified CSS selector.
-      inputElevation
-        .closest('.form__row')
-        .classList.toggle('form__row--hidden');
-      inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
-    });
+    inputType.addEventListener('change', this._toggleElevationField);
   }
 
   _getPosition() {
@@ -67,7 +57,14 @@ class App {
     form.classList.remove('hidden');
     inputDistance.focus();
   }
-  _toggleElevationField() {}
+  _toggleElevationField() {
+    // The closest() method of the Element interface
+    // traverses the element and its parents
+    // (heading toward the document root) until it finds a node
+    // that matches the specified CSS selector.
+    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+  }
   _newWorkout(e) {
     e.preventDefault();
     // clear input fields;
