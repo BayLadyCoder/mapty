@@ -48,9 +48,15 @@ if (navigator.geolocation) {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  // clear input fields;
+  inputDistance.value = '';
+  inputDuration.value = '';
+  inputCadence.value = '';
+  inputElevation.value = '';
+
+  // display marker
   console.log(mapEvent);
   const { lat, lng } = mapEvent.latlng;
-
   // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
   L.marker([lat, lng])
     .addTo(map)
