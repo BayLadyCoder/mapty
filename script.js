@@ -12,6 +12,7 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 class App {
+  // private properties
   #map;
   #mapEvent;
 
@@ -22,6 +23,7 @@ class App {
     inputType.addEventListener('change', this._toggleElevationField);
   }
 
+  // _ prefix is convention of private methods
   _getPosition() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
