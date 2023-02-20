@@ -17,43 +17,42 @@ let mapEvent;
 class App {
   constructor() {}
 
-  _getPosition() {}
-  _loadMap() {}
+  _getPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this._loadMap, (err) =>
+        console.log('err', err)
+      );
+    }
+  }
+  _loadMap(position) {
+    console.log('position', position);
+
+    const { latitude, longitude } = position.coords;
+
+    // console.log(`https://www.google.pt/maps/@${latitude},${longitude}`);
+
+    const coords = [latitude, longitude];
+    const zoomLevel = 13;
+
+    // 'map' must be the same name with an `id` in an HTML element for rendering map in HTML
+    map = L.map('map').setView(coords, zoomLevel);
+
+    // tile layer is where you can change map theme
+    // for more theme, see: https://leaflet-extras.github.io/leaflet-providers/preview/
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    map.on('click', (mapE) => {
+      mapEvent = mapE;
+      form.classList.remove('hidden');
+      inputDistance.focus();
+    });
+  }
   _showForm() {}
   _toggleElevationField() {}
   _newWorkout() {}
-}
-
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      console.log('position', position);
-
-      const { latitude, longitude } = position.coords;
-
-      // console.log(`https://www.google.pt/maps/@${latitude},${longitude}`);
-
-      const coords = [latitude, longitude];
-      const zoomLevel = 13;
-
-      // 'map' must be the same name with an `id` in an HTML element for rendering map in HTML
-      map = L.map('map').setView(coords, zoomLevel);
-
-      // tile layer is where you can change map theme
-      // for more theme, see: https://leaflet-extras.github.io/leaflet-providers/preview/
-      L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-
-      map.on('click', (mapE) => {
-        mapEvent = mapE;
-        form.classList.remove('hidden');
-        inputDistance.focus();
-      });
-    },
-    (err) => console.log('err', err)
-  );
 }
 
 form.addEventListener('submit', (e) => {
