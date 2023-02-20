@@ -15,12 +15,12 @@ class Workout {
   date = new Date();
 
   // creating unique identity
-  id = (new Date().getTime() + '').slice(-10);
+  id = (Date.now() + '').slice(-10);
 
   constructor(coords, distance, duration) {
-    this.coords = coords;
-    this.distance = distance;
-    this.duration = duration;
+    this.coords = coords; // [lat, lng]
+    this.distance = distance; // in km
+    this.duration = duration; // in min
   }
 }
 
@@ -52,6 +52,8 @@ class Cycling extends Workout {
   }
 }
 
+// ------------------------- //
+// APPLICATION ARCHITECTURE
 class App {
   // private properties
   #map;
