@@ -18,32 +18,7 @@ class App {
   constructor() {
     this._getPosition();
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      // clear input fields;
-      inputDistance.value = '';
-      inputDuration.value = '';
-      inputCadence.value = '';
-      inputElevation.value = '';
-
-      // display marker
-      console.log(this.#mapEvent);
-      const { lat, lng } = this.#mapEvent.latlng;
-      // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
-      L.marker([lat, lng])
-        .addTo(this.#map)
-        .bindPopup(
-          L.popup({
-            maxWidth: 250,
-            minWidth: 100,
-            autoClose: false,
-            closeOnClick: false,
-            className: 'running-popup',
-          })
-        )
-        .setPopupContent('Workout')
-        .openPopup();
-    });
+    form.addEventListener('submit', this._newWorkout.bind(this));
 
     inputType.addEventListener('change', () => {
       // The closest() method of the Element interface
@@ -93,7 +68,32 @@ class App {
   }
   _showForm() {}
   _toggleElevationField() {}
-  _newWorkout() {}
+  _newWorkout(e) {
+    e.preventDefault();
+    // clear input fields;
+    inputDistance.value = '';
+    inputDuration.value = '';
+    inputCadence.value = '';
+    inputElevation.value = '';
+
+    // display marker
+    console.log(this.#mapEvent);
+    const { lat, lng } = this.#mapEvent.latlng;
+    // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
+    L.marker([lat, lng])
+      .addTo(this.#map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: 'running-popup',
+        })
+      )
+      .setPopupContent('Workout')
+      .openPopup();
+  }
 }
 
 const app = new App();
