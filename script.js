@@ -15,7 +15,9 @@ let map;
 let mapEvent;
 
 class App {
-  constructor() {}
+  constructor() {
+    this._getPosition();
+  }
 
   _getPosition() {
     if (navigator.geolocation) {
@@ -54,6 +56,8 @@ class App {
   _toggleElevationField() {}
   _newWorkout() {}
 }
+
+const app = new App();
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
