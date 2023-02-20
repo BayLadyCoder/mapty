@@ -11,6 +11,9 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+let map;
+let mapEvent;
+
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     (position) => {
@@ -24,7 +27,7 @@ if (navigator.geolocation) {
       const zoomLevel = 13;
 
       // 'map' must be the same name with an `id` in an HTML element for rendering map in HTML
-      const map = L.map('map').setView(coords, zoomLevel);
+      map = L.map('map').setView(coords, zoomLevel);
 
       // tile layer is where you can change map theme
       // for more theme, see: https://leaflet-extras.github.io/leaflet-providers/preview/
@@ -33,26 +36,33 @@ if (navigator.geolocation) {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      map.on('click', (mapEvent) => {
-        console.log(mapEvent);
-        const { lat, lng } = mapEvent.latlng;
-
-        // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
-        L.marker([lat, lng])
-          .addTo(map)
-          .bindPopup(
-            L.popup({
-              maxWidth: 250,
-              minWidth: 100,
-              autoClose: false,
-              closeOnClick: false,
-              className: 'running-popup',
-            })
-          )
-          .setPopupContent('Workout')
-          .openPopup();
+      map.on('click', (mapE) => {
+        mapEvent = mapE;
+        form.classList.remove('hidden');
+        inputDistance.focus();
       });
     },
     (err) => console.log('err', err)
   );
 }
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log(mapEvent);
+  const { lat, lng } = mapEvent.latlng;
+
+  // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
+  L.marker([lat, lng])
+    .addTo(map)
+    .bindPopup(
+      L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup',
+      })
+    )
+    .setPopupContent('Workout')
+    .openPopup();
+});
