@@ -59,6 +59,7 @@ class App {
   // private properties
   #map;
   #mapEvent;
+  #workouts = [];
 
   constructor() {
     this._getPosition();
@@ -124,6 +125,8 @@ class App {
     const type = inputType.value;
     const distance = +inputDistance.value; // convert string to number
     const duration = +inputDuration.value;
+    const { lat, lng } = this.#mapEvent.latlng;
+    let workout;
 
     // Check if data is valid
 
@@ -138,10 +141,14 @@ class App {
       ) {
         return alert('Inputs have to be positive numbers! 1');
       }
+
+      workout = new Running([lat, lng], distance, duration, cadence);
     }
 
     // If workout is cycling, create cycling object
     if (type === 'cycling') {
+      const elevation = +inputElevation.value;
+
       // check if data is valid
       if (
         !validInputs(distance, duration, elevation) ||
@@ -149,7 +156,12 @@ class App {
       ) {
         return alert('Inputs have to be positive numbers! 2');
       }
+
+      workout = new Cycling([lat, lng], distance, duration, elevation);
     }
+
+    this.#workouts.push(workout);
+    console.log('app this', this);
 
     // Add new object to workout array
 
@@ -164,8 +176,6 @@ class App {
     inputElevation.value = '';
 
     // display marker
-    console.log(this.#mapEvent);
-    const { lat, lng } = this.#mapEvent.latlng;
     // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
     L.marker([lat, lng])
       .addTo(this.#map)
