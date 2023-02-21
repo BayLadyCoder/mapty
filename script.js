@@ -22,7 +22,7 @@ class Workout {
   }
 
   _setDescription() {
-    this.description = `${this.type[0].toUppercase()}${this.type.slice(1)} on ${
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
   }
@@ -180,6 +180,7 @@ class App {
     this._renderWorkoutMarker(workout);
 
     // Render workout on list
+    this._renderWorkout(workout);
 
     // Hide form and clear input fields;
     inputDistance.value = '';
@@ -238,7 +239,7 @@ class App {
           </div>
         </li>
       `;
-    } else {
+    } else if (workout.type === 'cycling') {
       html += `
        <div class="workout__details">
             <span class="workout__icon">⚡️</span>
@@ -253,6 +254,8 @@ class App {
         </li> -->
       `;
     }
+
+    form.insertAdjacentHTML('afterend', html);
   }
 }
 
