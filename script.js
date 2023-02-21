@@ -78,12 +78,14 @@ class App {
   #map;
   #mapEvent;
   #workouts = [];
+  #mapZoomLevel = 13;
 
   constructor() {
     this._getPosition();
 
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   // _ prefix is convention of private methods
@@ -103,10 +105,9 @@ class App {
     // console.log(`https://www.google.pt/maps/@${latitude},${longitude}`);
 
     const coords = [latitude, longitude];
-    const zoomLevel = 13;
 
     // 'map' must be the same name with an `id` in an HTML element for rendering map in HTML
-    this.#map = L.map('map').setView(coords, zoomLevel);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
     // tile layer is where you can change map theme
     // for more theme, see: https://leaflet-extras.github.io/leaflet-providers/preview/
@@ -267,6 +268,28 @@ class App {
     }
 
     form.insertAdjacentHTML('afterend', html);
+  }
+
+  _moveToPopup(e) {
+    // find workout element that is clicked
+    const workoutEl = e.target.closest('.workout');
+    console.log(workoutEl);
+
+    if (!workoutEl) {
+      return;
+    }
+
+    // find workout object
+    const workout = this.#workouts.find(
+      (workout) => workout.id === workoutEl.dataset.id
+    );
+
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 
