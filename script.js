@@ -122,6 +122,18 @@ class App {
     form.classList.remove('hidden');
     inputDistance.focus();
   }
+
+  _hideForm() {
+    inputDistance.value = '';
+    inputDuration.value = '';
+    inputCadence.value = '';
+    inputElevation.value = '';
+
+    form.style.display = 'none';
+    form.classList.add('hidden');
+    setTimeout(() => (form.style.display = 'grid'), 1000);
+  }
+
   _toggleElevationField() {
     // The closest() method of the Element interface
     // traverses the element and its parents
@@ -183,10 +195,7 @@ class App {
     this._renderWorkout(workout);
 
     // Hide form and clear input fields;
-    inputDistance.value = '';
-    inputDuration.value = '';
-    inputCadence.value = '';
-    inputElevation.value = '';
+    this._hideForm();
   }
 
   _renderWorkoutMarker(workout) {
