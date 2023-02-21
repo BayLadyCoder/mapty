@@ -103,8 +103,6 @@ class App {
     }
   }
   _loadMap(position) {
-    console.log('position', position);
-
     const { latitude, longitude } = position.coords;
 
     // console.log(`https://www.google.pt/maps/@${latitude},${longitude}`);
@@ -196,7 +194,6 @@ class App {
 
     // Add new object to workout array
     this.#workouts.push(workout);
-    console.log('app this', this);
 
     // Render workout on map as marker
     this._renderWorkoutMarker(workout);
@@ -212,7 +209,6 @@ class App {
   }
 
   _renderWorkoutMarker(workout) {
-    console.log('workout', workout);
     // create marker, add marker to the map, bind popup to the marker, and open it when click on a specific location in the map
     L.marker(workout.coords)
       .addTo(this.#map)
@@ -285,7 +281,6 @@ class App {
   _moveToPopup(e) {
     // find workout element that is clicked
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl);
 
     if (!workoutEl) {
       return;
@@ -310,7 +305,6 @@ class App {
 
   _getLocalStorage() {
     const workouts = JSON.parse(localStorage.getItem('workouts'));
-    console.log('localStorage', workouts);
 
     if (!workouts) {
       return;
