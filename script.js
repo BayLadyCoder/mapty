@@ -171,7 +171,7 @@ class App {
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
       ) {
-        return alert('Inputs have to be positive numbers! 1');
+        return alert('Inputs are required and have to be positive numbers!');
       }
 
       workout = new Running([lat, lng], distance, duration, cadence);
@@ -186,7 +186,7 @@ class App {
         !validInputs(distance, duration, elevation) ||
         !allPositive(distance, duration)
       ) {
-        return alert('Inputs have to be positive numbers! 2');
+        return alert('Inputs are required and have to be positive numbers!');
       }
 
       workout = new Cycling([lat, lng], distance, duration, elevation);
@@ -315,6 +315,12 @@ class App {
     this.#workouts.forEach((workout) => {
       this._renderWorkout(workout);
     });
+  }
+
+  reset() {
+    // Use app.reset() in browser console to reset workouts
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 }
 
